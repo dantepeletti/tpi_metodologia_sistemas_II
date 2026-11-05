@@ -1,0 +1,19 @@
+# Configuración privada y conexiones a la base de datos
+/config/
+
+# Dependencias de Composer
+/vendor/
+
+# Variables de entorno
+.env
+.env.*
+
+# Bases de datos locales
+*.sqlite
+*.sqlite3
+*.db
+
+# Archivos temporales
+*.log
+.DS_Store
+Thumbs.db
