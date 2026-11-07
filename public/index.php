@@ -67,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
     }
 }
 
-$solicitudes = $controller->index();
 }
 
 ?>
