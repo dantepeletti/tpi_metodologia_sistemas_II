@@ -1,0 +1,170 @@
+/* Estilos generales */
+body {
+    background-color: var(--bs-body-bg) !important;
+    color: var(--bs-body-color);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+h1,
+h2,
+.form-label,
+.table tbody td {
+    color: var(--bs-body-color);
+}
+
+/* Modo oscuro */
+[data-bs-theme="dark"] .card-header.bg-white {
+    background-color: var(--bs-secondary-bg) !important;
+}
+
+[data-bs-theme="dark"] .table thead th {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .table tbody td {
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .card {
+    border: 1px solid var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+}
+
+/* Correcciones de texto en modo oscuro */
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] .form-label,
+[data-bs-theme="dark"] .card-header,
+[data-bs-theme="dark"] .table tbody td {
+    color: var(--bs-body-color) !important;
+}
+
+/* Encabezados de tarjetas */
+[data-bs-theme="dark"] .card-header {
+    background-color: var(--bs-secondary-bg) !important;
+}
+
+main.container {
+    max-width: 1200px;
+}
+
+/* Encabezados */
+h1 {
+    font-weight: 700;
+    color: #243247;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    color: #343f50;
+    font-weight: 600;
+}
+
+/* Tarjetas */
+.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* Formularios */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-control,
+.form-select {
+    border-radius: 7px;
+    padding: 10px 12px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+}
+
+/* Botones */
+.btn {
+    border-radius: 7px;
+    font-weight: 600;
+    padding: 9px 18px;
+}
+
+/* Tabla */
+.table {
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.table thead th {
+    background-color: #f1f4f8;
+    color: #49566a;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 15px 12px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody td {
+    padding: 15px 12px;
+    color: #495057;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Etiquetas */
+.badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 7px 10px;
+    border-radius: 6px;
+}
+
+/* Alertas */
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+/* Colores personalizados de prioridad */
+.prioridad-baja {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.prioridad-media {
+    background-color: #fd7e14 !important;
+    color: #212529 !important;
+}
+
+.prioridad-alta {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+}
+
+.prioridad-default {
+    background-color: #6c757d !important;
+    color: #ffffff !important;
+}
