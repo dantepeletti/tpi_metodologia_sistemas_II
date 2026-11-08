@@ -8,6 +8,9 @@ require_once dirname(__DIR__) . '/src/Models/SolicitudData.php';
 require_once dirname(__DIR__) . '/config/SolicitudConfig.php';
 
 $conexion = require dirname(__DIR__) . '/config/database.php';
+if ($conexion['database'] === null) {
+    $mensajeError = 'No se pudo conectar con la base de datos. Intentá nuevamente más tarde.';
+}
 
 $solicitudes = [];
 $estudiantesDisponibles = [];
