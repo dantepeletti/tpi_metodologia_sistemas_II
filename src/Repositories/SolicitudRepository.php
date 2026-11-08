@@ -41,35 +41,64 @@ public function registrar(SolicitudData $datos): void
 } 
 
     public function obtenerTodas(): array
-    {
-        $solicitudes = $this->collection->find(
-            [],
-            ['sort' => ['fechaCreacion' => -1]]
-        )->toArray();
+    {   
+    $solicitudes = $this->collection->find(
+        [],
+        ['sort' => ['fechaCreacion' => -1]]
+    )->toArray();
 
-        $resultado = [];
+    $estudianteIds = [];
+    $responsableIds = [];
 
-        foreach ($solicitudes as $solicitud) {
+    foreach ($solicitudes as $solicitud) {
+        $estudianteIds[(string) $solicitud['estudianteId']] =
+            $solicitud['estudianteId'];
 
-            $estudiante = $this->estudiantes->findOne([
-                '_id' => $solicitud['estudianteId']
-            ]);
-
-            $responsable = null;
-
-            if ($solicitud['responsableId'] !== null) {
-                $responsable = $this->responsables->findOne([
-                    '_id' => $solicitud['responsableId']
-                ]);
-            }
-
-            $resultado[] = [
-                'solicitud' => $solicitud,
-                'estudiante' => $estudiante,
-                'responsable' => $responsable
-            ];
+        if ($solicitud['responsableId'] !== null) {
+            $responsableIds[(string) $solicitud['responsableId']] =
+                $solicitud['responsableId'];
         }
+    }
 
-        return $resultado;
+    $estudiantesPorId = [];
+    $responsablesPorId = [];
+
+    if (!empty($estudianteIds)) {
+        $estudiantes = $this->estudiantes->find([
+            '_id' => ['$in' => array_values($estudianteIds)]
+        ])->toArray();
+
+        foreach ($estudiantes as $estudiante) {
+            $estudiantesPorId[(string) $estudiante['_id']] = $estudiante;
+        }
+    }
+
+    if (!empty($responsableIds)) {
+        $responsables = $this->responsables->find([
+            '_id' => ['$in' => array_values($responsableIds)]
+        ])->toArray();
+
+        foreach ($responsables as $responsable) {
+            $responsablesPorId[(string) $responsable['_id']] = $responsable;
+        }
+    }
+
+    $resultado = [];
+
+    foreach ($solicitudes as $solicitud) {
+        $resultado[] = [
+            'solicitud' => $solicitud,
+            'estudiante' => $estudiantesPorId[
+                (string) $solicitud['estudianteId']
+            ] ?? null,
+            'responsable' => $solicitud['responsableId'] !== null
+                ? ($responsablesPorId[
+                    (string) $solicitud['responsableId']
+                ] ?? null)
+                : null
+        ];
+    }
+
+    return $resultado;
     }
 }
