@@ -29,4 +29,9 @@ class SolicitudController
             $datos['descripcion'] !== ''
         );
     }
+
+    public function obtenerEstudiantesActivos(): array
+    {
+        return $this->repository->obtenerEstudiantesActivos();
+    }
 }

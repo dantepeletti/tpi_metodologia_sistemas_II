@@ -1,70 +1,48 @@
 <?php
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+$bootstrap = require dirname(__DIR__) . '/config/bootstrap.php';
 
-require_once dirname(__DIR__) . '/src/Repositories/SolicitudRepository.php';
-require_once dirname(__DIR__) . '/src/Controllers/SolicitudController.php';
-require_once dirname(__DIR__) . '/src/Models/SolicitudData.php';
-require_once dirname(__DIR__) . '/config/SolicitudConfig.php';
-
-$conexion = require dirname(__DIR__) . '/config/database.php';
-if ($conexion['database'] === null) {
-    $mensajeError = 'No se pudo conectar con la base de datos. Intentá nuevamente más tarde.';
-}
+$controller = $bootstrap['controller'];
 
 $solicitudes = [];
 $estudiantesDisponibles = [];
 $mensajeError = null;
 
-
-if ($conexion['database'] !== null) {
-
-    $collection = $conexion['database']->selectCollection('solicitudes');
-
-    $estudiantes = $conexion['database']->selectCollection('estudiantes');
-
-    $responsables = $conexion['database']->selectCollection('responsables');
-
-        $repository = new SolicitudRepository(
-            $collection,
-            $estudiantes,
-            $responsables
-        );
-
-    $controller = new SolicitudController($repository);
+if ($controller === null) {
+    $mensajeError = 'No se pudo conectar con la base de datos. Intentá nuevamente más tarde.';
+} else {
 
     $solicitudes = $controller->index();
 
-    $estudiantesDisponibles = $repository->obtenerEstudiantesActivos();
+    $estudiantesDisponibles = $controller->obtenerEstudiantesActivos();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
 
-    $datos = [
-        'estudianteId' => $_POST['estudianteId'] ?? '',
-        'tipo' => $_POST['tipo'] ?? '',
-        'titulo' => trim($_POST['titulo'] ?? ''),
-        'descripcion' => trim($_POST['descripcion'] ?? ''),
-        'prioridad' => $_POST['prioridad'] ?? ''
-    ];
+        $datos = [
+            'estudianteId' => $_POST['estudianteId'] ?? '',
+            'tipo' => $_POST['tipo'] ?? '',
+            'titulo' => trim($_POST['titulo'] ?? ''),
+            'descripcion' => trim($_POST['descripcion'] ?? ''),
+            'prioridad' => $_POST['prioridad'] ?? ''
+        ];
 
-if (!$controller->validarDatos($datos)) {
-    $mensajeError = 'Verificá los datos ingresados.';
-} else {
-        $solicitud = new SolicitudData(
-        $datos['estudianteId'],
-        $datos['tipo'],
-        $datos['titulo'],
-        $datos['descripcion'],
-        $datos['prioridad']
-    );
+        if (!$controller->validarDatos($datos)) {
+            $mensajeError = 'Verificá los datos ingresados.';
+        } else {
+            $solicitud = new SolicitudData(
+                $datos['estudianteId'],
+                $datos['tipo'],
+                $datos['titulo'],
+                $datos['descripcion'],
+                $datos['prioridad']
+            );
 
-    $controller->crear($solicitud);
+            $controller->crear($solicitud);
 
-    header('Location: index.php');
-    exit;
-}
-}
-
+            header('Location: index.php');
+            exit;
+        }
+    }
 }
 
 ?>
