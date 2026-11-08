@@ -14,8 +14,8 @@ class SolicitudController
         return $this->repository->obtenerTodas();
     }
 
-    public function crear(array $datos): void
+    public function crear(SolicitudData $datos): void
     {
-    $this->repository->registrar($datos);
+        $this->repository->registrar($datos);
     }
 }

@@ -25,15 +25,15 @@ public function obtenerEstudiantesActivos(): array
     )->toArray();
 }
 
-public function registrar(array $datos): void
+public function registrar(SolicitudData $datos): void
 {
     $this->collection->insertOne([
-        'estudianteId' => new MongoDB\BSON\ObjectId($datos['estudianteId']),
+        'estudianteId' => new MongoDB\BSON\ObjectId($datos->estudianteId),
         'responsableId' => null,
-        'tipo' => $datos['tipo'],
-        'titulo' => $datos['titulo'],
-        'descripcion' => $datos['descripcion'],
-        'prioridad' => $datos['prioridad'],
+        'tipo' => $datos->tipo,
+        'titulo' => $datos->titulo,
+        'descripcion' => $datos->descripcion,
+        'prioridad' => $datos->prioridad,
         'estado' => 'pendiente',
         'fechaCreacion' => new MongoDB\BSON\UTCDateTime(),
         'fechaActualizacion' => new MongoDB\BSON\UTCDateTime()

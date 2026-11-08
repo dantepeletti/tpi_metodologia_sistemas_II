@@ -4,6 +4,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 require_once dirname(__DIR__) . '/src/Repositories/SolicitudRepository.php';
 require_once dirname(__DIR__) . '/src/Controllers/SolicitudController.php';
+require_once dirname(__DIR__) . '/src/Models/SolicitudData.php';
 
 $conexion = require dirname(__DIR__) . '/config/database.php';
 
@@ -65,7 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
 if (!validarDatosSolicitud($datos)) {
     $mensajeError = 'Verificá los datos ingresados.';
 } else {
-    $controller->crear($datos);
+        $solicitud = new SolicitudData(
+        $datos['estudianteId'],
+        $datos['tipo'],
+        $datos['titulo'],
+        $datos['descripcion'],
+        $datos['prioridad']
+    );
+
+    $controller->crear($solicitud);
 
     header('Location: index.php');
     exit;
