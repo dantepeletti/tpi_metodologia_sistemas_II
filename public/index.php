@@ -5,6 +5,7 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 require_once dirname(__DIR__) . '/src/Repositories/SolicitudRepository.php';
 require_once dirname(__DIR__) . '/src/Controllers/SolicitudController.php';
 require_once dirname(__DIR__) . '/src/Models/SolicitudData.php';
+require_once dirname(__DIR__) . '/config/SolicitudConfig.php';
 
 $conexion = require dirname(__DIR__) . '/config/database.php';
 

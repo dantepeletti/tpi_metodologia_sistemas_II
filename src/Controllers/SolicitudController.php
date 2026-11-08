@@ -19,23 +19,14 @@ class SolicitudController
         $this->repository->registrar($datos);
     }
 
-    public function validarDatos(array $datos): bool {
-    $tiposValidos = [
-        'certificado',
-        'consulta',
-        'inscripcion',
-        'documentacion',
-        'equivalencia'
-    ];
-
-    $prioridadesValidas = ['baja', 'media', 'alta'];
-
-    return (
-        preg_match('/^[a-f\d]{24}$/i', $datos['estudianteId']) &&
-        in_array($datos['tipo'], $tiposValidos, true) &&
-        in_array($datos['prioridad'], $prioridadesValidas, true) &&
-        $datos['titulo'] !== '' &&
-        $datos['descripcion'] !== ''
-    );
-}
+    public function validarDatos(array $datos): bool
+    {
+        return (
+            preg_match('/^[a-f\d]{24}$/i', $datos['estudianteId']) &&
+            in_array($datos['tipo'], SolicitudConfig::TIPOS_VALIDOS, true) &&
+            in_array($datos['prioridad'], SolicitudConfig::PRIORIDADES_VALIDAS, true) &&
+            $datos['titulo'] !== '' &&
+            $datos['descripcion'] !== ''
+        );
+    }
 }
