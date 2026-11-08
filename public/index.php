@@ -11,6 +11,27 @@ $solicitudes = [];
 $estudiantesDisponibles = [];
 $mensajeError = null;
 
+function validarDatosSolicitud(array $datos): bool
+{
+    $tiposValidos = [
+        'certificado',
+        'consulta',
+        'inscripcion',
+        'documentacion',
+        'equivalencia'
+    ];
+
+    $prioridadesValidas = ['baja', 'media', 'alta'];
+
+    return (
+        preg_match('/^[a-f\d]{24}$/i', $datos['estudianteId']) &&
+        in_array($datos['tipo'], $tiposValidos, true) &&
+        in_array($datos['prioridad'], $prioridadesValidas, true) &&
+        $datos['titulo'] !== '' &&
+        $datos['descripcion'] !== ''
+    );
+}
+
 if ($conexion['database'] !== null) {
 
     $collection = $conexion['database']->selectCollection('solicitudes');
@@ -41,30 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
         'prioridad' => $_POST['prioridad'] ?? ''
     ];
 
-    $tiposValidos = [
-        'certificado',
-        'consulta',
-        'inscripcion',
-        'documentacion',
-        'equivalencia'
-    ];
-
-    $prioridadesValidas = ['baja', 'media', 'alta'];
-
-    if (
-        !preg_match('/^[a-f\d]{24}$/i', $datos['estudianteId']) ||
-        !in_array($datos['tipo'], $tiposValidos, true) ||
-        !in_array($datos['prioridad'], $prioridadesValidas, true) ||
-        $datos['titulo'] === '' ||
-        $datos['descripcion'] === ''
-    ) {
+if (!validarDatosSolicitud($datos)) {
     $mensajeError = 'Verificá los datos ingresados.';
-    } else {
-        $controller->crear($datos);
+} else {
+    $controller->crear($datos);
 
-        header('Location: index.php');
-        exit;
-    }
+    header('Location: index.php');
+    exit;
+}
 }
 
 }
